@@ -299,7 +299,7 @@ msgstr "поиск..."
 #: ../gnome_connection_manager.py:1974 ../gnome-connection-manager.glade:271
 #: ../gnome_connection_manager.py:2143 ../gnome-connection-manager.glade:410
 msgid "Local"
-msgstr "Локальный"
+msgstr "Локальная"
 
 #: ../gnome_connection_manager.py:702 ../gnome-connection-manager.glade.h:23
 #: ../gnome_connection_manager.py:1140 ../gnome-connection-manager.glade:1206
@@ -449,7 +449,7 @@ msgstr "Запрос подтверждения при закрытии конс
 #: ../gnome_connection_manager.py:2186 ../gnome_connection_manager.py:2287
 #: ../gnome_connection_manager.py:2406 ../gnome_connection_manager.py:2576
 msgid "Confirmar al salir"
-msgstr "Запрос подтверждения при выходи"
+msgstr "Запрос подтверждения при выходе"
 
 #: ../gnome_connection_manager.py:1431 ../gnome_connection_manager.py:1443
 #: ../gnome_connection_manager.py:1642 ../gnome_connection_manager.py:1807
@@ -1135,7 +1135,7 @@ msgstr "Выбрать"
 
 #: ../gnome-connection-manager.glade:122
 msgid "Salir"
-msgstr "выходи"
+msgstr "Выход"
 
 #: ../gnome_connection_manager.py:598 ../gnome_connection_manager.py:666
 #: ../gnome_connection_manager.py:684 ../gnome_connection_manager.py:737
@@ -1240,7 +1240,7 @@ msgstr "только при отсутствии ошибок"
 
 #: ../gnome-connection-manager.glade:147 ../gnome-connection-manager.glade:274
 msgid "_Ver"
-msgstr "смотреть"
+msgstr "Вид"
 
 #: ../gnome-connection-manager.glade:155 ../gnome-connection-manager.glade:282
 msgid "Mostrar Toolbar"
