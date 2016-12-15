@@ -1,4 +1,5 @@
 # gcm
+NOTE: I am not the original author
 fork of Gnome-Connection-Manager
 
 based on version 1.1
@@ -8,7 +9,7 @@ http://kuthulu.com/gcm
 
 ## New
  - changed to use pyaes
- - added menu items for scp strings
+ - added menu items for scp strings (from https://github.com/yma-het/GnomeConnectionManager)
  - empty passwords are not saved to config
 
 # REQUIREMENTS:
