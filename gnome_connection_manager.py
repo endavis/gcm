@@ -164,6 +164,8 @@ import base64
 import time
 import tempfile
 import argparse
+import glob
+from datetime import datetime
 
 try:
     import gtk
@@ -212,6 +214,14 @@ except:
     error.run()
     sys.exit (1)
 
+try:
+    from pythongettext.msgfmt import Msgfmt
+except:
+    error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
+      'You must install python-gettext')
+    error.run()
+    sys.exit (1)
+    
 app_name = "Gnome Connection Manager"
 app_version = "1.1.0"
 app_web = "http://www.kuthulu.com/gcm"
@@ -230,7 +240,7 @@ KEY_FILE = None
 DEFAULT_CONFIG_FILE = "gcm.conf"
 DEFAULT_KEY_FILE = ".gcm.key"
 
-domain_name="gcm-lang"
+DOMAIN_NAME="gcm-lang"
 
 HSPLIT = 0
 VSPLIT = 1
@@ -260,15 +270,40 @@ _CONNECT = ["connect"]
 
 ICON_PATH = BASE_PATH + "/icon.png"
 
-glade_dir = ""
-locale_dir = BASE_PATH + "/lang"
+GLADE_DIR = ""
+LOCALE_DIR = os.path.join(BASE_PATH, 'lang')
 
-bindtextdomain(domain_name, locale_dir)
+bindtextdomain(DOMAIN_NAME, LOCALE_DIR)
 
 groups={}
 shortcuts={}
 
 enc_passwd=''
+
+def update_localization_files():
+    """
+    update localization files
+    """
+    files = glob.glob(os.path.join(LOCALE_DIR, '*.po'))
+    for pofile in files:
+        bname = os.path.basename(pofile)
+        lang = bname.split('_')[0]
+        modir = os.path.join(LOCALE_DIR, lang, 'LC_MESSAGES')
+        if not os.path.exists(modir):
+            os.makedirs(modir)
+        
+        mofile = os.path.join(modir, '%s.mo' % DOMAIN_NAME)
+        if os.path.exists(mofile):
+            mofiletime = datetime.fromtimestamp(os.path.getctime(mofile))
+            pofiletime = datetime.fromtimestamp(os.path.getctime(pofile))
+            if pofiletime > mofiletime:
+                os.remove(mofile)
+
+        if not os.path.exists(mofile):
+            mos = Msgfmt(pofile).get()
+            tfile = open(mofile, 'w')
+            tfile.write(mos)
+            tfile.close()
 
 def find_config_dir():
     """
@@ -475,8 +510,8 @@ class Wmain(SimpleGladeApp):
 
     def __init__(self, path="gnome-connection-manager.glade",
                  root="wMain",
-                 domain=domain_name, **kwargs):
-        path = os.path.join(glade_dir, path)
+                 domain=DOMAIN_NAME, **kwargs):
+        path = os.path.join(GLADE_DIR, path)
         SimpleGladeApp.__init__(self, path, root, domain, **kwargs)
 
         global wMain
@@ -2222,8 +2257,8 @@ class Whost(SimpleGladeApp):
 
     def __init__(self, path="gnome-connection-manager.glade",
                  root="wHost",
-                 domain=domain_name, **kwargs):
-        path = os.path.join(glade_dir, path)
+                 domain=DOMAIN_NAME, **kwargs):
+        path = os.path.join(GLADE_DIR, path)
         SimpleGladeApp.__init__(self, path, root, domain, **kwargs)
 
         self.treeModel = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_STRING)
@@ -2609,8 +2644,8 @@ class Wabout(SimpleGladeApp):
 
     def __init__(self, path="gnome-connection-manager.glade",
                  root="wAbout",
-                 domain=domain_name, **kwargs):
-        path = os.path.join(glade_dir, path)
+                 domain=DOMAIN_NAME, **kwargs):
+        path = os.path.join(GLADE_DIR, path)
         SimpleGladeApp.__init__(self, path, root, domain, **kwargs)
         self.wAbout.set_icon_from_file(ICON_PATH)
     #-- Wabout.new {
@@ -2634,8 +2669,8 @@ class Wconfig(SimpleGladeApp):
 
     def __init__(self, path="gnome-connection-manager.glade",
                  root="wConfig",
-                 domain=domain_name, **kwargs):
-        path = os.path.join(glade_dir, path)
+                 domain=DOMAIN_NAME, **kwargs):
+        path = os.path.join(GLADE_DIR, path)
         SimpleGladeApp.__init__(self, path, root, domain, **kwargs)
 
     #-- Wconfig.new {
@@ -2905,9 +2940,9 @@ class Wcluster(SimpleGladeApp):
 
     def __init__(self, path="gnome-connection-manager.glade",
                  root="wCluster",
-                 domain=domain_name, terms=None, **kwargs):
+                 domain=DOMAIN_NAME, terms=None, **kwargs):
         self.terms = terms
-        path = os.path.join(glade_dir, path)
+        path = os.path.join(GLADE_DIR, path)
         SimpleGladeApp.__init__(self, path, root, domain, **kwargs)
 
     #-- Wcluster.new {
@@ -3253,6 +3288,8 @@ def main():
     CONFIG_DIR = find_config_dir()
     CONFIG_FILE = os.path.join(CONFIG_DIR, DEFAULT_CONFIG_FILE)
     KEY_FILE = os.path.join(CONFIG_DIR, DEFAULT_KEY_FILE)
+
+    update_localization_files()
 
     w_main = Wmain()
     w_main.run()
