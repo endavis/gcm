@@ -163,6 +163,7 @@ import sys
 import base64
 import time
 import tempfile
+import argparse
 
 try:
     import gtk
@@ -190,6 +191,11 @@ if e != 0:
     error.run()
     sys.exit (1)
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--configdir', dest='configdir',
+                    help='specify a config directory (it must exist), if config directory is not specified, defaults to $HOME/.gcm')
+args = parser.parse_args()
+
 gtk.gdk.threads_init()
 
 from SimpleGladeApp import SimpleGladeApp
@@ -211,11 +217,11 @@ TEL_BIN = 'telnet'
 SHELL   = os.environ["SHELL"]
 
 SSH_COMMAND = BASE_PATH + "/ssh.expect"
-CONFIG_FILE = os.getenv("HOME") + "/.gcm/gcm.conf"
-KEY_FILE = os.getenv("HOME") + "/.gcm/.gcm.key"
-
-if not os.path.exists(os.getenv("HOME") + "/.gcm"):
-    os.makedirs(os.getenv("HOME") + "/.gcm")
+CONFIG_DIR = None
+CONFIG_FILE = None
+KEY_FILE = None
+DEFAULT_CONFIG_FILE = "gcm.conf"
+DEFAULT_KEY_FILE = ".gcm.key"
 
 domain_name="gcm-lang"
 
@@ -256,6 +262,36 @@ groups={}
 shortcuts={}
 
 enc_passwd=''
+
+def find_config_dir():
+    """
+    find the config directory
+
+    will not create a directory that is passed from the command line
+
+    defaults to $HOME/.gcm
+    """
+    global args
+    global parser
+
+    configdir = None
+
+    if args.configdir:
+        if os.path.exists(args.configdir):
+            configdir = args.configdir
+        else:
+            thelp = parser.format_usage()
+            thelp = thelp + '\n' + "Config directory does not exist"
+            thelp = thelp + '\n    ' + args.configdir
+
+            print thelp
+            sys.exit(1)
+    else:
+        configdir = os.path.join(os.getenv("HOME"), ".gcm")
+        if not os.path.exists(configdir):
+            os.makedirs(configdir)
+
+    return configdir
 
 #Variables de configuracion
 class conf():
@@ -3195,6 +3231,14 @@ class CheckUpdates(Thread):
 #-- main {
 
 def main():
+    global CONFIG_DIR
+    global CONFIG_FILE
+    global KEY_FILE
+
+    CONFIG_DIR = find_config_dir()
+    CONFIG_FILE = os.path.join(CONFIG_DIR, DEFAULT_CONFIG_FILE)
+    KEY_FILE = os.path.join(CONFIG_DIR, DEFAULT_KEY_FILE)
+
     w_main = Wmain()
     w_main.run()
 
