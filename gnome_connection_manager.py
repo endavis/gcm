@@ -203,7 +203,14 @@ from SimpleGladeApp import bindtextdomain
 
 import ConfigParser
 import pango
-import pyaes
+
+try:
+    import pyaes
+except:
+    error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
+      'You must install pyaes')
+    error.run()
+    sys.exit (1)
 
 app_name = "Gnome Connection Manager"
 app_version = "1.1.0"
