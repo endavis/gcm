@@ -12,28 +12,28 @@
 # Renzo Bertuzzi (kuthulu@gmail.com) - CHILE
 #
 #TODO
-# - ayuda
+# - help
 # - drag'n drop hosts entre grupos
 # - sftp
-# - master password (al iniciar la aplicacion)
-# - guardar estado de consolas abiertas (y estado de split)
-# - revisar buscador, a veces no encuentra las palabras
-# - sortcut para moverse entre notebooks
-# - quitar los "accelerator" del archivo .glade (o dejarlos opcionales)
-# - soporte picocom (o minicom, o pyserial, ser2net) para comunicación serial
-# - Permitir modificar combinacion para cerrar aplicacion CTRL+Q
-# - Icono en system tray
-# - Quitar shortcut ALT+F para archivo
-# - Permitir deshabilitar shortcuts
-# - soporte proxy socks/http para ssh
+# - master password (When starting the application)
+# - Save open console status (and split status)
+# - Review search engine, sometimes can not find the words
+# - Shortcut to move between notebooks
+# - Remove the "accelerator" from the .glade file (or leave them optional)
+# - Picocom (or minicom, or pyserial, ser2net) support for serial communication
+# - Allow modify combination to close application CTRL + Q
+# - Icon in system tray
+# - Remove ALT + F shortcut for file
+# - Allow disabling shortcuts
+# - Socks / http proxy support for ssh
 # - cluster mode: would be nice to have a drop-down list on the cluster button and once selected \"the text to send to hosts box\" should be activated on the right of the cluster button. The box should stay on the toolbar and not over the terminal window
 # - hide chars** in cluster mode (un checkbox para mostrar/ocultar entrada)
-# - seleccionar varios hosts y conectarse
-# - seleccionar varios hosts y editarlos
-# - permitir establecer colores a nivel de grupos
-# - permitir cambiar nombre de grupo
+# - Select multiple hosts and connect
+# - Select multiple hosts and edit them
+# - Allow to set color at group level
+# - Allow change group name
 # - overwrite colors (like putty)
-# - Cambiar charset en consola o en propiedades del host
+# - Change charset in console or in host properties
 # - One "nice to have" would be the ability for GCM to use my existing PuTTY sessions instead of entering everything a second time. External script for that that parses ~/putty/session files
 # - Enter passwords in commands and hide them, #P=password (Angelo Corsaro). TextView doesnt support masking text, it needs a different implementation. Pending.
 # - Persist history of cluster commands. is it really necessary?
