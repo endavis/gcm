@@ -1,5 +1,6 @@
 # gcm
-NOTE: I am not the original author
+**NOTE: I am not the original author**
+
 fork of Gnome-Connection-Manager
 
 based on version 1.1
