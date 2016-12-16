@@ -12,7 +12,7 @@ http://kuthulu.com/gcm
  - changed to use pyaes
  - added menu items for scp strings (from https://github.com/yma-het/GnomeConnectionManager)
  - empty passwords are not saved to config
- - can specify config directory through the command line
+ - can specify config directory through the command line (-c option)
 
 # REQUIREMENTS:
 you must have python 2.6 or later, python-gtk2, expect, python-vte, libglade2-0, python-glade2, pyaes
