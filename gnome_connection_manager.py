@@ -710,7 +710,7 @@ class Wmain(SimpleGladeApp):
                 cb.set_text(host.host)
                 cb.store()
             return True
-        elif item == 'SCPF': #COPY TO CLIPDOARD SCP STRING OF DONOR HOST
+        elif item == 'SCPF': #COPY TO CLIPBOARD SCP STRING TO RECEIVE FROM HOST
             if self.treeServers.get_selection().get_selected()[1]!=None and not self.treeModel.iter_has_child(self.treeServers.get_selection().get_selected()[1]):
                 host = self.treeModel.get_value(self.treeServers.get_selection().get_selected()[1],1)
                 cb = gtk.Clipboard()
@@ -718,7 +718,7 @@ class Wmain(SimpleGladeApp):
                 cb.set_text(scpstr)
                 cb.store()
             return True
-        elif item == 'SCPT': #COPY TO CLIPDOARD SCP STRING OF RECEPIENT HOST
+        elif item == 'SCPT': #COPY TO CLIPBOARD SCP STRING to SEND TO HOST
             if self.treeServers.get_selection().get_selected()[1]!=None and not self.treeModel.iter_has_child(self.treeServers.get_selection().get_selected()[1]):
                 host = self.treeModel.get_value(self.treeServers.get_selection().get_selected()[1],1)
                 cb = gtk.Clipboard()
@@ -904,13 +904,13 @@ class Wmain(SimpleGladeApp):
         menuItem.connect("activate", self.on_popupmenu, 'H')
         menuItem.show()
 
-        self.popupMenuFolder.mnuCopyAddress = menuItem = gtk.ImageMenuItem(_("Copy SCP string to clipboard <--"))
+        self.popupMenuFolder.mnuCopySCPto = menuItem = gtk.ImageMenuItem(_("Copy SCP string to clipboard <--"))
         menuItem.set_image(gtk.image_new_from_stock(gtk.STOCK_COPY, gtk.ICON_SIZE_MENU))
         self.popupMenuFolder.append(menuItem)
         menuItem.connect("activate", self.on_popupmenu, 'SCPF')
         menuItem.show()
 
-        self.popupMenuFolder.mnuCopyAddress = menuItem = gtk.ImageMenuItem(_("Copy SCP string to clipboard -->"))
+        self.popupMenuFolder.mnuCopySCPfrom = menuItem = gtk.ImageMenuItem(_("Copy SCP string to clipboard -->"))
         menuItem.set_image(gtk.image_new_from_stock(gtk.STOCK_COPY, gtk.ICON_SIZE_MENU))
         self.popupMenuFolder.append(menuItem)
         menuItem.connect("activate", self.on_popupmenu, 'SCPT')
@@ -2066,21 +2066,29 @@ class Wmain(SimpleGladeApp):
             x = int(event.x)
             y = int(event.y)
             pthinfo = self.treeServers.get_path_at_pos(x, y)
+
             if pthinfo is None:
                 self.popupMenuFolder.mnuDel.hide()
                 self.popupMenuFolder.mnuEdit.hide()
                 self.popupMenuFolder.mnuCopyAddress.hide()
                 self.popupMenuFolder.mnuDup.hide()
+                self.popupMenuFolder.mnuCopySCPfrom.hide()
+                self.popupMenuFolder.mnuCopySCPto.hide()
             else:
                 path, col, cellx, celly = pthinfo
                 if self.treeModel.iter_children(self.treeModel.get_iter(path)):
                     self.popupMenuFolder.mnuEdit.hide()
                     self.popupMenuFolder.mnuCopyAddress.hide()
                     self.popupMenuFolder.mnuDup.hide()
+                    self.popupMenuFolder.mnuCopySCPfrom.hide()
+                    self.popupMenuFolder.mnuCopySCPto.hide()
                 else:
                     self.popupMenuFolder.mnuEdit.show()
                     self.popupMenuFolder.mnuCopyAddress.show()
                     self.popupMenuFolder.mnuDup.show()
+                    self.popupMenuFolder.mnuCopySCPfrom.show()
+                    self.popupMenuFolder.mnuCopySCPto.show()
+
                 self.popupMenuFolder.mnuDel.show()
                 self.treeServers.grab_focus()
                 self.treeServers.set_cursor( path, col, 0)
