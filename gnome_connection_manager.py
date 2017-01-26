@@ -215,13 +215,13 @@ except:
     sys.exit (1)
 
 try:
-    from pythongettext.msgfmt import Msgfmt
+    import polib
 except:
     error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
-      'You must install python-gettext')
+      'You must install polib')
     error.run()
     sys.exit (1)
-    
+
 app_name = "Gnome Connection Manager"
 app_version = "1.1.0"
 app_web = "http://www.kuthulu.com/gcm"
@@ -273,13 +273,6 @@ ICON_PATH = BASE_PATH + "/icon.png"
 GLADE_DIR = ""
 LOCALE_DIR = os.path.join(BASE_PATH, 'lang')
 
-bindtextdomain(DOMAIN_NAME, LOCALE_DIR)
-
-groups={}
-shortcuts={}
-
-enc_passwd=''
-
 def update_localization_files():
     """
     update localization files
@@ -291,7 +284,7 @@ def update_localization_files():
         modir = os.path.join(LOCALE_DIR, lang, 'LC_MESSAGES')
         if not os.path.exists(modir):
             os.makedirs(modir)
-        
+
         mofile = os.path.join(modir, '%s.mo' % DOMAIN_NAME)
         if os.path.exists(mofile):
             mofiletime = datetime.fromtimestamp(os.path.getctime(mofile))
@@ -300,10 +293,15 @@ def update_localization_files():
                 os.remove(mofile)
 
         if not os.path.exists(mofile):
-            mos = Msgfmt(pofile).get()
-            tfile = open(mofile, 'w')
-            tfile.write(mos)
-            tfile.close()
+            po = polib.pofile(pofile, encoding="utf-8")
+            po.save_as_mofile(mofile)
+
+    bindtextdomain(DOMAIN_NAME, LOCALE_DIR)
+
+groups={}
+shortcuts={}
+
+enc_passwd=''
 
 def find_config_dir():
     """
