@@ -165,6 +165,7 @@ import time
 import tempfile
 import argparse
 import glob
+import traceback
 from datetime import datetime
 
 try:
@@ -1129,6 +1130,7 @@ class Wmain(SimpleGladeApp):
                 terminal.log = open(filename, 'w', 0)
                 terminal.log.write("Session '%s' opened at %s\n%s\n" % (title, time.strftime("%Y-%m-%d %H:%M:%S"), "-"*80))
             except:
+                traceback.print_exc()
                 msgbox("%s\n%s" % (_("No se puede abrir el archivo de log para escritura"), filename))
                 terminal.disconnect(terminal.log_handler_id)
                 del terminal.log_handler_id
@@ -1282,6 +1284,7 @@ class Wmain(SimpleGladeApp):
             #guardar datos de consola para clonar consola
             v.host = host
         except:
+            traceback.print_exc()
             msgbox("%s: %s" % (_("Error al conectar con servidor"), sys.exc_info()[1]))
 
     def send_data(self, terminal, data):
@@ -1728,6 +1731,7 @@ class Wmain(SimpleGladeApp):
                 f.write(buff)
                 f.close()
             except:
+                traceback.print_exc()
                 dlg.destroy()
                 msgbox("%s: %s" % (_("No se puede abrir archivo para escritura"), filename) )
                 return
@@ -1810,6 +1814,7 @@ class Wmain(SimpleGladeApp):
 
                     grupos[host.group].append( host )
             except:
+                traceback.print_exc()
                 msgbox(_("Archivo invalido"))
                 return
             #sobreescribir lista de hosts
@@ -1845,6 +1850,7 @@ class Wmain(SimpleGladeApp):
                 f.close()
                 os.rename(filename + ".tmp", filename)
             except:
+                traceback.print_exc()
                 msgbox(_("Archivo invalido"))
     #-- Wmain.on_exportar_servidores1_activate }
 
@@ -2509,6 +2515,7 @@ class Whost(SimpleGladeApp):
                                 groups[self.oldGroup][ index ] = host
                                 break
         except:
+            traceback.print_exc()
             msgbox("%s [%s]" % (_("Error al guardar el host. Descripcion"), sys.exc_info()[1]))
 
         global wMain
@@ -3274,6 +3281,7 @@ class CheckUpdates(Thread):
                 if len(new_version)>0 and new_version != app_version:
                     self.tag = gobject.timeout_add(0, self.msg, "%s\n\nVERSION: %s" % (_("Hay una nueva version disponible en http://kuthulu.com/gcm/?module=download"), new_version), self.parent.get_widget("wMain"))
         except:
+            traceback.print_exc()
             pass
 
 #-- main {
