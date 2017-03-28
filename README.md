@@ -5,7 +5,7 @@ fork of Gnome-Connection-Manager
 
 based on version 1.1
 
-Get the latest version here:
+Get the original version here:
 http://kuthulu.com/gcm
 
 ## New
