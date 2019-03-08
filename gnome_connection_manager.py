@@ -2054,6 +2054,7 @@ class Wmain(SimpleGladeApp):
 
     #-- Wmain.on_btnCluster_clicked {
     def on_btnCluster_clicked(self, widget, *args):
+        create = False
         if hasattr(self, 'wCluster'):
             if not self.wCluster.get_property("visible"):
                 self.wCluster.destroy()
